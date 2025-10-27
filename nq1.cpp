@@ -7,20 +7,18 @@ int x[20];
 bool place(int k,int n){
 
     for(int i=1;i<=k-1;i++){
-        if(x[i]==n || abs(x[i]-n)==abs(i-k)){
+        if(x[i]==n || abs(x[i]-n)==abs(i-k)){ //same column or same diagonal
             return false;
         }
     }
     return true;
-
-
 }
 
 void NQ(int k,int n){
 
     for(int i=1;i<=n;i++){ //Iterate through Each Column to check whether the queen is placable or not
         if(place(k,i)){
-            x[k]=i;
+            x[k]=i; // if it is placable then add that inside the solution array i.e. x[]
             if(k==n){
                 cout<<"\n";
                 for(int i=1;i<=n;i++){
