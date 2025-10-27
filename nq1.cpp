@@ -4,6 +4,9 @@ using namespace std;
 
 int x[20];
 
+//i is the current column, Used to compare the new queen’s position (k, i) with every previously placed queen (j, x[j])
+//k is the current row number
+//n is the current column number
 bool place(int k,int n){
 
     for(int i=1;i<=k-1;i++){
