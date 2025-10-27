@@ -24,7 +24,9 @@ int main() {
     cout << "Enter source vertex: ";
     cin >> source;
 
-    vector<int> dist(V, INT_MAX);
+    vector<int> dist(V, INT_MAX); //The dist array stores the shortest distance from the source vertex to every other vertex.,
+                                  // Initializes each element of this vector with INT_MAX.
+                                  //dist = [INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX]
     vector<int> parent(V, -1);
 
     dist[source] = 0;
