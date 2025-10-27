@@ -1,96 +1,81 @@
-#include<iostream>
+#include <iostream>
 #include <climits>
 using namespace std;
-bool bellmanFord(int source, int edges[][3], int V, int e, int dist[]) {
-    for (int i = 0; i < V; i++) {
-        dist[i] = INT_MAX;
-    }
-    dist[source] = 0;
 
-   
+// Function implementing Bellman-Ford algorithm
+bool bellmanFord(int source, int edges[][3], int V, int e, int dist[]) {
+    // Step 1: Initialize all distances to infinity
+    for (int i = 0; i < V; i++)
+        dist[i] = INT_MAX;
+    dist[source] = 0; // Distance from source to itself = 0
+
+    // Step 2: Relax all edges (V - 1) times
     for (int i = 1; i <= V - 1; i++) {
         for (int j = 0; j < e; j++) {
-            int u = edges[j][0];
-            int dest = edges[j][1];
-            int w = edges[j][2];
+            int u = edges[j][0];   // Start vertex
+            int v = edges[j][1];   // End vertex
+            int w = edges[j][2];   // Weight of the edge
 
-            if (dist[u] != INT_MAX && dist[dest] > dist[u] + w) {
-                dist[dest] = dist[u] + w;
-            }
+            // If the source vertex distance is not infinite and
+            // a shorter path to 'v' is found via 'u', then update it
+            if (dist[u] != INT_MAX && dist[v] > dist[u] + w)
+                dist[v] = dist[u] + w;
         }
     }
 
- 
+    // Step 3: Check for negative-weight cycles
     for (int j = 0; j < e; j++) {
         int u = edges[j][0];
-        int dest = edges[j][1];
+        int v = edges[j][1];
         int w = edges[j][2];
 
-        if (dist[u] != INT_MAX && dist[dest] > dist[u] + w) {
+        // If we can still relax an edge, a negative cycle exists
+        if (dist[u] != INT_MAX && dist[v] > dist[u] + w)
             return true;
-        }
     }
 
-    return false;
+    return false; // No negative cycle found
 }
-int main(){
 
-	int V = 0;
-	int e = 0;
-	int edges[e][3];
+int main() {
+    int V, e;
 
-	cout<<"\nEnter number of edges:";
-	cin>>e;
-	
-	cout<<"\nEnter number of Vertex:";
-	cin>>V;
-	
-	for(int i=0;i<e;i++){
-	int u,v,w;
-	cout<<"Enter edges no. :"<<i+1<<endl;
-	cout<<"Enter the start node :";
-	cin>>u;
-	
-	cout<<"Enter the ending node:";
-	cin>>v;
+    cout << "Enter number of vertices: ";
+    cin >> V;
 
-	cout<<"Enter the edge weight:";
-	cin>>w;
-	
-	edges[i][0]=u;
-	edges[i][1]=v;
-	edges[i][2]=w;
-	}
+    cout << "Enter number of edges: ";
+    cin >> e;
 
-	
-	/*
-    int edges[10][3] = {
-        {0,1,6},
-        {0,3,7},
-        {1,2,5},
-        {1,3,8},
-        {1,4,-4},
-        {2,1,-2},
-        {3,4,9},
-        {3,2,-3},
-        {4,0,2},
-        {4,2,7}
-    };*/
+    int edges[e][3]; // ✅ Declared after knowing 'e'
 
-    int s = 0;
-cout<<"Enter the source node: ";
-cin>>s;
+    // Input edges
+    cout << "\nEnter each edge as: StartVertex EndVertex Weight\n";
+    for (int i = 0; i < e; i++) {
+        cout << "Edge " << i + 1 << ": ";
+        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];
+    }
 
-int dist[V];
-bool isCycle=bellmanFord(s,edges,V,e,dist);
-for(int i=0;i<V;i++){
-cout<<"distance from "<<s<<" to node "<<i<<" is "<<":"<<dist[i]<<endl;
-}
-if(isCycle){
-cout<<"there exist a  negative edge cycle in graph";
-}
-else{
-cout<<"there doesnt exist a negative edge cycle";
-}
-return 0;
+    int source;
+    cout << "\nEnter the source vertex: ";
+    cin >> source;
+
+    int dist[V];
+    bool isCycle = bellmanFord(source, edges, V, e, dist);
+
+    // Print shortest distances
+    cout << "\nShortest distances from source vertex " << source << ":\n";
+    for (int i = 0; i < V; i++) {
+        if (dist[i] == INT_MAX)
+            cout << "Vertex " << i << " is unreachable.\n";
+        else
+            cout << "Distance to vertex " << i << " = " << dist[i] << endl;
+    }
+
+    // Print cycle information
+    if (isCycle)
+        cout << "\n Negative weight cycle detected in the graph.\n";
+    else
+        cout << "\n No negative weight cycle found.\n";
+
+    return 0;
 }
