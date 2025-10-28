@@ -26,14 +26,20 @@ int main(){
     cout<<"\nEnter the source Vertex";
     cin>>source;
 
+    while(source<0 || source>V){
+        cout<<"Invalid source the value should be between 0 and "<<V;
+        cout<<"\nEnter the source Vertex";
+        cin>>source;
+    }
+
     vector<int> dist(V,INT_MAX);
     vector<int> Parent(V,-1);
 
     for(int i=0;i<V-1;i++){
         for(int j=0;j<E;j++){
-            int u=edge[i].u;
-            int v=edge[i].v;
-            int w=edge[i].w;
+            int u=edge[j].u;
+            int v=edge[j].v;
+            int w=edge[j].w;
             if(dist[u]!=INT_MAX || (dist[u]+w) < dist[v] ){
                 dist[v]=dist[u]+w;
                 Parent[v]=u;
@@ -43,15 +49,13 @@ int main(){
 
 
     bool isCycle=false;
-    for(int i=0;i<V-1;i++){
         for(int j=0;j<E;j++){
-            int u=edge[i].u;
-            int v=edge[i].v;
-            int w=edge[i].w;
+            int u=edge[j].u;
+            int v=edge[j].v;
+            int w=edge[j].w;
             if(dist[u]!=INT_MAX || (dist[u]+w)<dist[v]){
                 isCycle=true;
             }
-        }
     }
 
     if(isCycle){
