@@ -1,4 +1,4 @@
-#include<iostream>
+/*#include<iostream>
 #include<cmath>
 using namespace std;
 void printMatrix(int matrix[],int n){
@@ -97,7 +97,7 @@ int main(){
   int maxprofit=0;
   int i=0;
   for(i=0;i<n;i++){
-    if(u>=weight[i]){
+    if(weight[i]<=u){
       u-=weight[i];
       x[i]=1;
       maxprofit+=profit[i];
@@ -116,4 +116,74 @@ int main(){
     cout<<x[i]<<" ";
   }
   return 0;
+}*/
+
+#include<iostream>
+#include<cmath>
+
+
+using namespace std;
+
+int main(){
+
+  int n;
+  cout<<"\nEnter the no of Products:";
+  cin>>n;
+
+  float profit[n];
+  int weight[n];
+
+  float x[n];
+  int m;
+  cout<<"Enter capacity of the Knapsack:";
+  cin>>m;
+
+
+  cout<<"\nEnter the Profit for Each Item:";
+  for(int i=0;i<n;i++){
+    cout<<"\nProfit of Item"<<i+1<<":";
+    cin>>profit[i];
+  }
+
+  cout<<"\nEnter the Weight for Each Item:";
+  for(int i=0;i<n;i++){
+    cout<<"\nWeight of Item"<<i+1<<":";
+    cin>>weight[i];
+  }
+
+
+    int n = 3;
+    float weight[] = {10, 20, 30};
+    float profit[] = {60, 100, 120};
+    float m = 50;  // Capacity
+  int maxP=0;
+   float x[10];
+
+  for(int i=0;i<n;i++){
+    x[i]=0;
+  }
+  int i=0;
+  int u=m;
+  for(i=0;i<n;i++){
+    if(weight[i]<=u){
+      u=u-weight[i];
+      x[i]=1;
+      maxP+=profit[i];
+    }else{
+      break;
+    }
+  }
+
+  if(i<n){
+    x[i]=u/(float)weight[i];
+    maxP+=x[i]*profit[i];
+  }
+
+  cout<<"\nMax Profit is:"<<maxP<<"\n";
+
+  for(int i=0;i<n;i++){
+    cout<<x[i]<<" ";
+  }
+
+
 }
