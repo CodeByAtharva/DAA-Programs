@@ -137,7 +137,7 @@ using namespace std;
 //     cout << "Capacity Used: " << (totalWeight / capacity) * 100 << "%" << endl;
 // }
 
-
+/*
 struct pw{
     double p;
     double w;
@@ -171,9 +171,12 @@ void TraceBack(vector<pw>& pair,vector<double>& p,vector<double>& w,vector<int>&
     }
 }
 double DKnap(vector<double>& p,vector<double>& w,vector<int>& x,int n,int m){
-    vector<pw> pair(1000);
+    vector<pw> pair(1000); //storees all the possible states
+                            //pair stores all possible states (weight, profit) as the algorithm progresses.
+                            //It is declared with 1000 elements to hold multiple states.
     vector<int> b(n+2);
-
+    //b is a boundary index array.
+    //It marks where the states of each iteration start and end.
     pair[1].p=0.0;
     pair[1].w=0.0;
     b[0]=1;
@@ -253,6 +256,143 @@ int main() {
     for(int i=0;i<n;i++){
         cout<<x[i]<<"  ";
     }
+
+    return 0;
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// int Largest(vector<PW>& pair, vector<double>& w, int t, int h, int i, double m) {
+//     int u = h;
+//     while (u >= t && pair[u].w + w[i] > m) {
+//         u--;
+//     }
+//     return u;
+// }
+
+/*
+
+
+ while(k<=h && pair[k].w<ww){
+                pair[next].p=pair[k].p;
+                pair[next].w=pair[k].w;
+                next++;
+                k++;
+            }
+            if(k<=h && ww==pair[k].w){
+                pp=max(pp,pair[k].p);
+                k++;
+            }
+            if(pp>pair[next-1].p){
+                pair[next].p=pp;
+                pair[next].w=ww;
+                next++;
+            }
+            while(k<=h && pair[k].p<=pair[next-1].p){
+                k++;
+            }
+*/
+
+struct pw{
+    int p;
+    int w;
+};
+
+int largest(vector<pw>pair,vector<int>w,int start,int end,int i,int m){
+    int u=start;
+
+    while(u>=start && pair[u].w +w[i]>m){
+        u--;
+    }
+
+    return u;
+}
+
+int Dknap(vector<int>p,vector<int>w,vector<int>res,int n,int m){
+
+    vector<pw> pair(1000);
+    vector<int> b(n+2);
+
+    pair[1].p=0;
+    pair[1].w=0;
+
+    int start,end,next;
+    start=1;
+    end=1;
+    next=2;
+    
+    b[0]=1; //mark the start of the first stage
+    b[1]=next; 
+    //Item 0 states start at 1
+    //The next available index (for future states) is 2
+
+
+    for(int i=0;i<n;i++){
+
+
+        int k=start;
+        int u=largest(pair,w,start,end,i,m);
+
+        for(int j=start;j<=u;j++){
+            int pp=pair[i].p+pair[j].p;
+            int ww=pair[i].w+pair[j].w;
+
+            while(k<=end && pair[k].w>=ww){
+                pp=max(pp,pair[k].p);
+                k++;
+            }
+
+        }
+
+
+
+    }
+
+
+
+    
+}
+
+int main(){
+    int n;
+    int capacity;
+
+    cout<<"Enter the number of Items:";
+    cin>>n;
+
+    cout<<"Enter the capacity of the Knapsack:";
+    cin>>capacity;
+
+    vector<int> p(n),w(n);
+
+    cout<<"Enter the Profit of an Items";
+    for(int i=0;i<n;i++){
+        cout<<"\nItem"<<i+1<<":";
+        cin>>p[i];
+    }
+
+    cout<<"Enter the Weight of an Items";
+    for(int i=0;i<n;i++){
+        cout<<"\nItem"<<i+1<<":";
+        cin>>w[i];
+    }
+
+    vector<int> res(n,0);
+
+    int profit=Dknap(p,w,res,n,capacity);
+
 
     return 0;
 }
