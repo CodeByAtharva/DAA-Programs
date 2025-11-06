@@ -103,3 +103,97 @@ int main() {
 
     return 0;
 }
+/*
+
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+
+class State{
+    public:
+    int weight,value;
+    vector<int> choosen;
+
+    State(int w,int p,int n){};
+    State(int w,int p,vector<int> choosen){};
+};
+
+void sortStates(vector<State> states){
+
+}
+
+void purge(vector<State> states,int cap){
+    sortStates(states);
+
+    vector<State>filter;
+    int max=-1;
+
+    for(auto s:states){
+        if(s.weight<=cap && s.value>max){
+            filter.push_back(s);
+            max=s.value;
+        }   
+    }
+    states=filter;
+
+
+
+}
+
+pair<int ,vector<int>> Dknap(vector<int> profit,vector<int>weight,int cap,int n){
+
+    vector<State> states;
+    states.push_back(State(0,0,n));
+
+    for(int i=0;i<n;i++){
+
+        vector<State> newState;
+
+        for(auto s:newState){
+            int newW=s.weight+profit[i];
+            int newP=s.value+weight[i];
+
+            if(newW>cap){
+                vector<int>newChoosen=s.choosen;
+                newChoosen[i]=1;
+                states.push_back(State(newW,newP,newChoosen));
+
+            }
+        }
+
+        states.insert(states.end(),newState.begin(),newState.end());
+
+
+        purge(states,cap);
+
+    }
+
+}
+int main(){
+
+    int n,cap;
+    cout<<"\nEnter the number of Items:";
+    cin>>n;
+
+    cout<<"\nEnter the Capacity of the kanpsack:";
+    cin>>cap;
+
+    vector<int> p(n),w(n);
+
+    cout<<"\nEnter the profit of each Item";
+    for(int i=0;i<n;i++){
+        cin>>p[i];
+    }
+
+    cout<<"\nEnter the weight for the each Item";
+    for(int i=0;i<=n;i++){
+        cin>>w[i];
+    }
+
+    auto res=Dknap(p,w,cap,n);
+
+    
+return 0;
+}*/
