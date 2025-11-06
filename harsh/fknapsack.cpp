@@ -116,10 +116,65 @@ int main(){
     cout<<x[i]<<" ";
   }
   return 0;
-}*/
+}
+
+*/
 
 #include<iostream>
 #include<cmath>
+
+void merge(float p[],float w[],int low,int mid,int high){
+
+  int l=low;
+  int r=mid+1;
+  int k=0;
+  float resP[high-low+1];
+  float resW[high-low+1];
+
+  while(l<=mid && r<=high){
+    if((p[l]/w[l]) > (p[r]/w[r])){
+        resP[k]=p[l];
+        resW[k]=w[l];
+        l++;
+    }else{
+       resP[k]=p[r];
+        resW[k]=w[r];
+        r++;
+    }
+    k++;
+  }
+
+  while(l<=mid){
+        resP[k]=p[l];
+        resW[k]=w[l];
+        l++;
+        k++;
+  }
+
+  while(r<=high){
+        resP[k]=p[r];
+        resW[k]=w[r];
+        r++;
+        k++;
+  }
+
+  for(int i=0;i<k;i++){
+    p[low+i]=resP[i];
+    w[low+i]=resW[i];
+  }
+
+}
+
+void mergeSort(float p[],float w[],int low,int high){
+
+  int mid=(low+high)/2;
+  if(low>=high) return;
+  mergeSort(p,w,low,mid);
+  mergeSort(p,w,mid+1,high);
+
+  merge(p,w,low,mid,high);
+
+}
 
 
 using namespace std;
@@ -131,7 +186,7 @@ int main(){
   cin>>n;
 
   float profit[n];
-  int weight[n];
+  float weight[n];
 
   float x[n];
   int m;
@@ -152,18 +207,34 @@ int main(){
   }
 
 
+  mergeSort(profit,weight,0,n-1);
+
+  cout<<"\n\nProfit";
+  for(int i=0;i<n;i++){
+    cout<<profit[i]<<" ";
+  }
+  cout<<"\n\nWeight";
+  for(int i=0;i<n;i++){
+    cout<<weight[i]<<" ";
+  }
+
+/*
     int n = 3;
     float weight[] = {10, 20, 30};
     float profit[] = {60, 100, 120};
     float m = 50;  // Capacity
-  int maxP=0;
-   float x[10];
+    float x[10];
+    
+    for(int i=0;i<n;i++){
+      x[i]=0;
+      }*/
+     int i=0;
+     int u=m;
+     float maxP=0;
 
-  for(int i=0;i<n;i++){
-    x[i]=0;
-  }
-  int i=0;
-  int u=m;
+     for(int i=0;i<n;i++){
+      x[i]=0;
+     }
   for(i=0;i<n;i++){
     if(weight[i]<=u){
       u=u-weight[i];
@@ -179,7 +250,7 @@ int main(){
     maxP+=x[i]*profit[i];
   }
 
-  cout<<"\nMax Profit is:"<<maxP<<"\n";
+  cout<<"\n\n\nMax Profit is:"<<maxP<<"\n\n\n";
 
   for(int i=0;i<n;i++){
     cout<<x[i]<<" ";
