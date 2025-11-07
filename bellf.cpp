@@ -34,9 +34,9 @@ int main() {
     // Relax edges V-1 times
     for (int i = 1; i <= V - 1; i++) {
         for (int j = 0; j < E; j++) {
-            int u = edges[j].u;
-            int v = edges[j].v;
-            int w = edges[j].w;
+            int u = edges[j].u; //start vertex
+            int v = edges[j].v; //end vertex
+            int w = edges[j].w; //it's weight
 
             if (dist[u] != INT_MAX && dist[u] + w < dist[v]) {
                 dist[v] = dist[u] + w;
